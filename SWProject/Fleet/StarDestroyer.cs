@@ -10,7 +10,5 @@ namespace SWProject
     {
         public List<Clone>? Passangers { get; set; }
         public List<Droid>? Droids { get; set; }
-
-
     }
 }

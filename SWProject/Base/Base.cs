@@ -8,6 +8,7 @@ namespace SWProject
 {
     public class Base
     {
+        public BaseFleet? AttachedFleet { get; set; }
         public List<Droid>? DroidList { get; set; }
         public List<Clone>? CloneList { get; set; }
         public Supply? AmmoSupply { get; set; }
