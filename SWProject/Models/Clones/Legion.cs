@@ -11,7 +11,7 @@ namespace SWProject
         public string? Name { get; set; }
         public Jedi? GeneralJedi { get; set; }
         public Clone? Commander { get; set; }
-        public List<Clone>? Clones { get; set; }
+        public List<Clone> Clones { get; set; }
 
     }
 }
