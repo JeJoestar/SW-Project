@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public class Supply
+    public class Supply : BaseEntity
     {
         public int CartridgesCnt { get; set; }
         public int GrenadesCnt { get; set; }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public abstract class StarShip
+    public abstract class StarShip : BaseEntity
     {
         public string? Name { get; }
         public List<Droid>? DroidList { get; set; }

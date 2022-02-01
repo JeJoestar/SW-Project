@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public class Droid
+    public class CombatDroid : Droid
     {
-        public string? Model { get; set; }
-        public string? Type { get; set; }
+        public string? Equipment { get; set; }
     }
 }

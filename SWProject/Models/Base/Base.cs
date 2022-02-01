@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public class Base
+    public class Base : BaseEntity
     {
         public BaseFleet? AttachedFleet { get; set; }
         public List<Droid>? DroidList { get; set; }

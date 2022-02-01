@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public class ServiceDroid : Droid
+    public class Droid : BaseEntity
     {
-        ServiceDroid()
-        {
-            Type = "Service";
-        }
+        public string? Model { get; set; }
+        public string? Type { get; set; }
     }
 }

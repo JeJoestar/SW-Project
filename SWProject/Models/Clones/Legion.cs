@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public class Legion
+    public class Legion : BaseEntity
     {
         public string? Name { get; set; }
         public Jedi? GeneralJedi { get; set; }

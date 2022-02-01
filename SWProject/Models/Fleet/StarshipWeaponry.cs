@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SWProject
 {
-    public class StarshipWeaponry
+    public class StarshipWeaponry : BaseEntity
     {
         public int LaserTurretCnt { get; set; }
         public int LaserDoubleCannonCnt { get; set; }

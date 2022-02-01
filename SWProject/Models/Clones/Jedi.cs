@@ -1,6 +1,6 @@
 ﻿namespace SWProject
 {
-    public class Jedi
+    public class Jedi : BaseEntity
     {
         public string? Name { get; set; }
         public Jedi? Padawan { get; set; }
