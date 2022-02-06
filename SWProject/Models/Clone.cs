@@ -11,7 +11,11 @@ namespace SWProject
     {
         public string? Number { get; set; }
         public Legion? Legion { get; set; }
-        public int LegionId { get; set; }
+        public int? LegionId { get; set; }
+        public Base? Base { get; set; }
+        public int? BaseId { get; set; }
+        public BaseFleet? Fleet { get; set; }
+        public int? FleetId { get; set; }
         public string? Equipment { get; set; }
         public string? Qualification { get; set; }
     }

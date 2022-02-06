@@ -9,6 +9,10 @@ namespace SWProject
     public class Droid : BaseEntity
     {
         public string? Model { get; set; }
-        public string? Type { get; set; }
+        public Base? Base { get; set; }
+        public int? BaseId { get; set; }
+        public BaseFleet? Fleet { get; set; }
+        public int FleetId { get; set; }
+        public string? Equipment { get; set; }
     }
 }
