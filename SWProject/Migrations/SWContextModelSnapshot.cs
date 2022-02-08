@@ -8,7 +8,7 @@ using SWProject;
 
 #nullable disable
 
-namespace SWProject.Migrations
+namespace SW.DAL.Migrations
 {
     [DbContext(typeof(SWContext))]
     partial class SWContextModelSnapshot : ModelSnapshot
@@ -53,12 +53,7 @@ namespace SWProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("VenatorId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VenatorId");
 
                     b.ToTable("Fleets");
                 });
@@ -80,16 +75,13 @@ namespace SWProject.Migrations
                     b.Property<int?>("LegionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LegionId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Number")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Qualification")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StarDestroyerId")
+                    b.Property<int?>("StarshipId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -98,9 +90,7 @@ namespace SWProject.Migrations
 
                     b.HasIndex("LegionId");
 
-                    b.HasIndex("LegionId1");
-
-                    b.HasIndex("StarDestroyerId");
+                    b.HasIndex("StarshipId");
 
                     b.ToTable("Clones");
                 });
@@ -122,14 +112,14 @@ namespace SWProject.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StarDestroyerId")
+                    b.Property<int?>("StarshipId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BaseId");
 
-                    b.HasIndex("StarDestroyerId");
+                    b.HasIndex("StarshipId");
 
                     b.ToTable("Droid");
                 });
@@ -186,7 +176,7 @@ namespace SWProject.Migrations
                     b.ToTable("Legions");
                 });
 
-            modelBuilder.Entity("SWProject.StarDestroyer", b =>
+            modelBuilder.Entity("SWProject.Starship", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -194,7 +184,14 @@ namespace SWProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Discriminator")
+                    b.Property<int>("FleetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PathList")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -203,11 +200,11 @@ namespace SWProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FleetId");
+
                     b.HasIndex("WeaponryId");
 
-                    b.ToTable("StarDestroyers");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("StarDestroyer");
+                    b.ToTable("Starships");
                 });
 
             modelBuilder.Entity("SWProject.StarshipWeaponry", b =>
@@ -257,18 +254,6 @@ namespace SWProject.Migrations
                     b.ToTable("Supplies");
                 });
 
-            modelBuilder.Entity("SWProject.AssaultShip", b =>
-                {
-                    b.HasBaseType("SWProject.StarDestroyer");
-
-                    b.Property<int?>("BaseFleetId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("BaseFleetId");
-
-                    b.HasDiscriminator().HasValue("AssaultShip");
-                });
-
             modelBuilder.Entity("SWProject.Base", b =>
                 {
                     b.HasOne("SWProject.Supply", "AmmoSupply")
@@ -284,45 +269,40 @@ namespace SWProject.Migrations
                     b.Navigation("AttachedFleet");
                 });
 
-            modelBuilder.Entity("SWProject.BaseFleet", b =>
-                {
-                    b.HasOne("SWProject.StarDestroyer", "Venator")
-                        .WithMany()
-                        .HasForeignKey("VenatorId");
-
-                    b.Navigation("Venator");
-                });
-
             modelBuilder.Entity("SWProject.Clone", b =>
                 {
-                    b.HasOne("SWProject.Base", null)
+                    b.HasOne("SWProject.Base", "Base")
                         .WithMany("Clones")
                         .HasForeignKey("BaseId");
 
                     b.HasOne("SWProject.Legion", "Legion")
-                        .WithMany()
+                        .WithMany("Clones")
                         .HasForeignKey("LegionId");
 
-                    b.HasOne("SWProject.Legion", null)
-                        .WithMany("Clones")
-                        .HasForeignKey("LegionId1");
-
-                    b.HasOne("SWProject.StarDestroyer", null)
+                    b.HasOne("SWProject.Starship", "Starship")
                         .WithMany("Passangers")
-                        .HasForeignKey("StarDestroyerId");
+                        .HasForeignKey("StarshipId");
+
+                    b.Navigation("Base");
 
                     b.Navigation("Legion");
+
+                    b.Navigation("Starship");
                 });
 
             modelBuilder.Entity("SWProject.Droid", b =>
                 {
-                    b.HasOne("SWProject.Base", null)
+                    b.HasOne("SWProject.Base", "Base")
                         .WithMany("Droids")
                         .HasForeignKey("BaseId");
 
-                    b.HasOne("SWProject.StarDestroyer", null)
+                    b.HasOne("SWProject.Starship", "Starship")
                         .WithMany("Droids")
-                        .HasForeignKey("StarDestroyerId");
+                        .HasForeignKey("StarshipId");
+
+                    b.Navigation("Base");
+
+                    b.Navigation("Starship");
                 });
 
             modelBuilder.Entity("SWProject.Jedi", b =>
@@ -343,20 +323,21 @@ namespace SWProject.Migrations
                     b.Navigation("GeneralJedi");
                 });
 
-            modelBuilder.Entity("SWProject.StarDestroyer", b =>
+            modelBuilder.Entity("SWProject.Starship", b =>
                 {
+                    b.HasOne("SWProject.BaseFleet", "Fleet")
+                        .WithMany("Starships")
+                        .HasForeignKey("FleetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SWProject.StarshipWeaponry", "Weaponry")
                         .WithMany()
                         .HasForeignKey("WeaponryId");
 
-                    b.Navigation("Weaponry");
-                });
+                    b.Navigation("Fleet");
 
-            modelBuilder.Entity("SWProject.AssaultShip", b =>
-                {
-                    b.HasOne("SWProject.BaseFleet", null)
-                        .WithMany("Acclamators")
-                        .HasForeignKey("BaseFleetId");
+                    b.Navigation("Weaponry");
                 });
 
             modelBuilder.Entity("SWProject.Base", b =>
@@ -368,9 +349,9 @@ namespace SWProject.Migrations
 
             modelBuilder.Entity("SWProject.BaseFleet", b =>
                 {
-                    b.Navigation("Acclamators");
-
                     b.Navigation("AttachedBases");
+
+                    b.Navigation("Starships");
                 });
 
             modelBuilder.Entity("SWProject.Jedi", b =>
@@ -385,7 +366,7 @@ namespace SWProject.Migrations
                     b.Navigation("Clones");
                 });
 
-            modelBuilder.Entity("SWProject.StarDestroyer", b =>
+            modelBuilder.Entity("SWProject.Starship", b =>
                 {
                     b.Navigation("Droids");
 

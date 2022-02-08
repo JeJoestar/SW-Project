@@ -8,7 +8,7 @@ namespace SWProject
 {
     public class Base : BaseEntity
     {
-        public BaseFleet? AttachedFleet { get; set; } //в однієї бази один флотб флот прив'язаний до однієї бази, так має бути?
+        public BaseFleet? AttachedFleet { get; set; }
         public int? AttachedFleetId { get; set; }
         public List<Droid> Droids { get; set; }
         public List<Clone> Clones { get; set; }

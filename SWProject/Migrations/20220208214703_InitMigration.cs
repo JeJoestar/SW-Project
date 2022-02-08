@@ -2,12 +2,24 @@
 
 #nullable disable
 
-namespace SWProject.Migrations
+namespace SW.DAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class InitMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Fleets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Fleets", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Jedies",
                 columns: table => new
@@ -80,60 +92,27 @@ namespace SWProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StarDestroyers",
+                name: "Starships",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    WeaponryId = table.Column<int>(type: "int", nullable: true)
+                    PathList = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WeaponryId = table.Column<int>(type: "int", nullable: true),
+                    FleetId = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StarDestroyers", x => x.Id);
+                    table.PrimaryKey("PK_Starships", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StarDestroyers_StarshipWeaponries_WeaponryId",
-                        column: x => x.WeaponryId,
-                        principalTable: "StarshipWeaponries",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Fleets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VenatorId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fleets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Fleets_StarDestroyers_VenatorId",
-                        column: x => x.VenatorId,
-                        principalTable: "StarDestroyers",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AssaultShipes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BaseFleetId = table.Column<int>(type: "int", nullable: true),
-                    WeaponryId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AssaultShipes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AssaultShipes_Fleets_BaseFleetId",
-                        column: x => x.BaseFleetId,
+                        name: "FK_Starships_Fleets_FleetId",
+                        column: x => x.FleetId,
                         principalTable: "Fleets",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AssaultShipes_StarshipWeaponries_WeaponryId",
+                        name: "FK_Starships_StarshipWeaponries_WeaponryId",
                         column: x => x.WeaponryId,
                         principalTable: "StarshipWeaponries",
                         principalColumn: "Id");
@@ -145,7 +124,7 @@ namespace SWProject.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AttachedFleetId = table.Column<int>(type: "int", nullable: false),
+                    AttachedFleetId = table.Column<int>(type: "int", nullable: true),
                     AmmoSupplyId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -155,8 +134,7 @@ namespace SWProject.Migrations
                         name: "FK_Base_Fleets_AttachedFleetId",
                         column: x => x.AttachedFleetId,
                         principalTable: "Fleets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Base_Supplies_AmmoSupplyId",
                         column: x => x.AmmoSupplyId,
@@ -171,24 +149,15 @@ namespace SWProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LegionId = table.Column<int>(type: "int", nullable: false),
-                    Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Qualification = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AssaultShipId = table.Column<int>(type: "int", nullable: true),
+                    LegionId = table.Column<int>(type: "int", nullable: true),
                     BaseId = table.Column<int>(type: "int", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LegionId1 = table.Column<int>(type: "int", nullable: true),
-                    StarDestroyerId = table.Column<int>(type: "int", nullable: true),
-                    StarDestroyerId1 = table.Column<int>(type: "int", nullable: true)
+                    StarshipId = table.Column<int>(type: "int", nullable: true),
+                    Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Qualification = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Clones_AssaultShipes_AssaultShipId",
-                        column: x => x.AssaultShipId,
-                        principalTable: "AssaultShipes",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Clones_Base_BaseId",
                         column: x => x.BaseId,
@@ -198,22 +167,11 @@ namespace SWProject.Migrations
                         name: "FK_Clones_Legions_LegionId",
                         column: x => x.LegionId,
                         principalTable: "Legions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Clones_Legions_LegionId1",
-                        column: x => x.LegionId1,
-                        principalTable: "Legions",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Clones_StarDestroyers_StarDestroyerId",
-                        column: x => x.StarDestroyerId,
-                        principalTable: "StarDestroyers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Clones_StarDestroyers_StarDestroyerId1",
-                        column: x => x.StarDestroyerId1,
-                        principalTable: "StarDestroyers",
+                        name: "FK_Clones_Starships_StarshipId",
+                        column: x => x.StarshipId,
+                        principalTable: "Starships",
                         principalColumn: "Id");
                 });
 
@@ -224,48 +182,24 @@ namespace SWProject.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AssaultShipId = table.Column<int>(type: "int", nullable: true),
                     BaseId = table.Column<int>(type: "int", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StarDestroyerId = table.Column<int>(type: "int", nullable: true),
-                    StarDestroyerId1 = table.Column<int>(type: "int", nullable: true),
+                    StarshipId = table.Column<int>(type: "int", nullable: true),
                     Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Droid", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Droid_AssaultShipes_AssaultShipId",
-                        column: x => x.AssaultShipId,
-                        principalTable: "AssaultShipes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Droid_Base_BaseId",
                         column: x => x.BaseId,
                         principalTable: "Base",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Droid_StarDestroyers_StarDestroyerId",
-                        column: x => x.StarDestroyerId,
-                        principalTable: "StarDestroyers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Droid_StarDestroyers_StarDestroyerId1",
-                        column: x => x.StarDestroyerId1,
-                        principalTable: "StarDestroyers",
+                        name: "FK_Droid_Starships_StarshipId",
+                        column: x => x.StarshipId,
+                        principalTable: "Starships",
                         principalColumn: "Id");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssaultShipes_BaseFleetId",
-                table: "AssaultShipes",
-                column: "BaseFleetId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AssaultShipes_WeaponryId",
-                table: "AssaultShipes",
-                column: "WeaponryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Base_AmmoSupplyId",
@@ -278,11 +212,6 @@ namespace SWProject.Migrations
                 column: "AttachedFleetId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clones_AssaultShipId",
-                table: "Clones",
-                column: "AssaultShipId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Clones_BaseId",
                 table: "Clones",
                 column: "BaseId");
@@ -293,24 +222,9 @@ namespace SWProject.Migrations
                 column: "LegionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clones_LegionId1",
+                name: "IX_Clones_StarshipId",
                 table: "Clones",
-                column: "LegionId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clones_StarDestroyerId",
-                table: "Clones",
-                column: "StarDestroyerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Clones_StarDestroyerId1",
-                table: "Clones",
-                column: "StarDestroyerId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Droid_AssaultShipId",
-                table: "Droid",
-                column: "AssaultShipId");
+                column: "StarshipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Droid_BaseId",
@@ -318,19 +232,9 @@ namespace SWProject.Migrations
                 column: "BaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Droid_StarDestroyerId",
+                name: "IX_Droid_StarshipId",
                 table: "Droid",
-                column: "StarDestroyerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Droid_StarDestroyerId1",
-                table: "Droid",
-                column: "StarDestroyerId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Fleets_VenatorId",
-                table: "Fleets",
-                column: "VenatorId");
+                column: "StarshipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Jedies_PadawanId",
@@ -347,8 +251,13 @@ namespace SWProject.Migrations
                 filter: "[GeneralJediId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StarDestroyers_WeaponryId",
-                table: "StarDestroyers",
+                name: "IX_Starships_FleetId",
+                table: "Starships",
+                column: "FleetId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Starships_WeaponryId",
+                table: "Starships",
                 column: "WeaponryId");
         }
 
@@ -364,22 +273,19 @@ namespace SWProject.Migrations
                 name: "Legions");
 
             migrationBuilder.DropTable(
-                name: "AssaultShipes");
+                name: "Base");
 
             migrationBuilder.DropTable(
-                name: "Base");
+                name: "Starships");
 
             migrationBuilder.DropTable(
                 name: "Jedies");
 
             migrationBuilder.DropTable(
-                name: "Fleets");
-
-            migrationBuilder.DropTable(
                 name: "Supplies");
 
             migrationBuilder.DropTable(
-                name: "StarDestroyers");
+                name: "Fleets");
 
             migrationBuilder.DropTable(
                 name: "StarshipWeaponries");

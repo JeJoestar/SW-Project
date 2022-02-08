@@ -11,8 +11,8 @@ namespace SWProject
         public string? Model { get; set; }
         public Base? Base { get; set; }
         public int? BaseId { get; set; }
-        public BaseFleet? Fleet { get; set; }
-        public int FleetId { get; set; }
+        public Starship? Starship { get; set; }
+        public int? StarshipId { get; set; }
         public string? Equipment { get; set; }
     }
 }

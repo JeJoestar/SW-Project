@@ -15,8 +15,7 @@ namespace SWProject
         public DbSet<Jedi>? Jedies { get; set; }
         public DbSet<Legion>? Legions { get; set; }
         public DbSet<BaseFleet>? Fleets { get; set; }
-        public DbSet<StarDestroyer>? StarDestroyers { get; set; }
-        public DbSet<AssaultShip>? AssaultShips { get; set;}
+        public DbSet<Starship>? Starships { get; set; }
         public DbSet<StarshipWeaponry>? StarshipWeaponries { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,82 +24,60 @@ namespace SWProject
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*modelBuilder.Entity<Legion>()
-                .HasOne(b => b.Commander)
-                .WithMany(); //означає, що в одного легіона один командир, але в командира багато легіонів
-                             //не впевнений чи це логічно, якщо ні, то треба щось трохи поміняти в зв'язках
-            // Я поки це прибрав, але це треба передумати і трохи поговорити про ключі (id) і як ними користуватися для зв'язківІ
-            */
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Legion)
-                .WithMany()
-                .HasForeignKey(clone => clone.LegionId); ; //означає, що в одного легіона багато клонів,
-                                                           //але клон тільки в одному легіоні
+                .WithMany(legion => legion.Clones)
+                .HasForeignKey(clone => clone.LegionId); ; 
+                                                           
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Base)
-                .WithMany()
+                .WithMany(basee => basee.Clones)
                 .HasForeignKey(clone => clone.BaseId);
-
-
-            modelBuilder.Entity<Clone>()
-                .HasOne(clone => clone.Fleet)
-                .WithMany()
-                .HasForeignKey(clone => clone.FleetId);
 
 
             modelBuilder.Entity<Legion>()
                 .HasOne(legion => legion.GeneralJedi)
                 .WithOne(jedi => jedi.Legion)
-                .HasForeignKey<Legion>(a => a.GeneralJediId); //означає, що в одного легіона один джедай-генарл,
-                                                              //і один джедай може керувати тільки одним легіоном
+                .HasForeignKey<Legion>(a => a.GeneralJediId); 
+                                                              
 
             modelBuilder.Entity<Jedi>()
                 .HasOne(jedi => jedi.Padawan)
                 .WithOne(jedi => jedi.Teacher)
-                .HasForeignKey<Jedi>(a => a.PadawanId); //легких шляхів не шукаємо =) відразу складні випадки зв'зяків
-                                                        //падаван і вчитель мають зв'язок один до одного
+                .HasForeignKey<Jedi>(a => a.PadawanId); 
+                                                        
 
-            modelBuilder.Entity<StarDestroyer>()    //Крейсер має багато дроїдів на борту
-                .HasMany<Droid>()
-                .WithOne();
-
-
-            modelBuilder.Entity<StarDestroyer>()    //Крейсер має багато клонів на борту
-                .HasMany<Clone>()
-                .WithOne();
+            modelBuilder.Entity<Clone>()
+                .HasOne(clone => clone.Starship)
+                .WithMany(starDestroyer => starDestroyer.Passangers)
+                .HasForeignKey(a => a.StarshipId);
 
 
-            modelBuilder.Entity<StarDestroyer>()
+            modelBuilder.Entity<Droid>()
+                .HasOne(droid => droid.Starship)
+                .WithMany(starDestroyer => starDestroyer.Droids)
+                .HasForeignKey(a => a.StarshipId);
+
+
+            modelBuilder.Entity<Starship>()
                 .HasOne(starDestroyer => starDestroyer.Fleet)
-                .WithMany()
-                .HasForeignKey(a => a.FleetId);
-
-
-            modelBuilder.Entity<AssaultShip>()
-                .HasOne(assaultShip => assaultShip.Fleet)
-                .WithMany()
+                .WithMany(fleet => fleet.Starships)
                 .HasForeignKey(a => a.FleetId);
 
 
             modelBuilder.Entity<Base>()
                 .HasOne(basee => basee.AttachedFleet)
-                .WithMany()
+                .WithMany(fleet => fleet.AttachedBases)
                 .HasForeignKey(a => a.AttachedFleetId);
 
 
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Base)
-                .WithMany()
+                .WithMany(basee => basee.Droids)
                 .HasForeignKey(a => a.BaseId);
             
-
-            modelBuilder.Entity<Droid>()
-                .HasOne(droid => droid.Fleet)
-                .WithMany()
-                .HasForeignKey(a => a.FleetId);
-
 
         }
     }
