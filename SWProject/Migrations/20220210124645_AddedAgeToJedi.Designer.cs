@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SW.DAL;
 
@@ -11,9 +12,10 @@ using SW.DAL;
 namespace SW.DAL.Migrations
 {
     [DbContext(typeof(SWContext))]
-    partial class SWContextModelSnapshot : ModelSnapshot
+    [Migration("20220210124645_AddedAgeToJedi")]
+    partial class AddedAgeToJedi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,6 +133,9 @@ namespace SW.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
 
                     b.Property<int?>("LegionId")
                         .HasColumnType("int");

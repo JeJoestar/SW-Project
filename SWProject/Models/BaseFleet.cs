@@ -1,4 +1,4 @@
-﻿namespace SWProject
+﻿namespace SW.DAL
 {
     public class BaseFleet : BaseEntity // ця сутність взагалі не мала ключа 
     {

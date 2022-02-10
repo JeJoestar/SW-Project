@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
-namespace SWProject
+namespace SW.DAL
 {
     public class SWContext : DbContext
     {
@@ -17,9 +19,27 @@ namespace SWProject
         public DbSet<BaseFleet>? Fleets { get; set; }
         public DbSet<Starship>? Starships { get; set; }
         public DbSet<StarshipWeaponry>? StarshipWeaponries { get; set; }
+
+        private string _connectionString;
+
+        public SWContext()
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", false)
+                .Build();
+
+            _connectionString = configuration.GetConnectionString("SWDatabase");
+        }
+
+        public SWContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=StoreDB;Integrated Security=true;");
+            optionsBuilder.UseSqlServer(_connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

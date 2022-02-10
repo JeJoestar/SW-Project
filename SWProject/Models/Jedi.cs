@@ -1,8 +1,8 @@
-﻿namespace SWProject
+﻿namespace SW.DAL
 {
     public class Jedi : BaseEntity
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public int? PadawanId { get; set; }
         public Jedi? Padawan { get; set; } // складні зв'язки сутності до самої себе, теж треба описати окремо, дивися в SWContext

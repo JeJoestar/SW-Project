@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using SW.DAL;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -15,6 +19,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+var swConnectionString = builder.Configuration.GetConnectionString("SWDatabase");
+
+var swContext = new SWContext(swConnectionString);
+swContext.Database.Migrate();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

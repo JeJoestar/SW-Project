@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SW.DAL;
 
@@ -11,9 +12,10 @@ using SW.DAL;
 namespace SW.DAL.Migrations
 {
     [DbContext(typeof(SWContext))]
-    partial class SWContextModelSnapshot : ModelSnapshot
+    [Migration("20220210131151_RemovedAgeFRomJedi")]
+    partial class RemovedAgeFRomJedi
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
