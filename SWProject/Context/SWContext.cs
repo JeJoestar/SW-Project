@@ -28,13 +28,15 @@ namespace SWProject
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Legion)
                 .WithMany(legion => legion.Clones)
-                .HasForeignKey(clone => clone.LegionId); ; 
+                .HasForeignKey(clone => clone.LegionId)
+                .OnDelete(DeleteBehavior.ClientCascade);
                                                            
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Base)
                 .WithMany(basee => basee.Clones)
-                .HasForeignKey(clone => clone.BaseId);
+                .HasForeignKey(clone => clone.BaseId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
 
             modelBuilder.Entity<Legion>()
@@ -52,19 +54,22 @@ namespace SWProject
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Starship)
                 .WithMany(starDestroyer => starDestroyer.Passangers)
-                .HasForeignKey(a => a.StarshipId);
+                .HasForeignKey(a => a.StarshipId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
 
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Starship)
                 .WithMany(starDestroyer => starDestroyer.Droids)
-                .HasForeignKey(a => a.StarshipId);
+                .HasForeignKey(a => a.StarshipId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
 
             modelBuilder.Entity<Starship>()
                 .HasOne(starDestroyer => starDestroyer.Fleet)
                 .WithMany(fleet => fleet.Starships)
-                .HasForeignKey(a => a.FleetId);
+                .HasForeignKey(a => a.FleetId)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
 
             modelBuilder.Entity<Base>()
@@ -76,7 +81,8 @@ namespace SWProject
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Base)
                 .WithMany(basee => basee.Droids)
-                .HasForeignKey(a => a.BaseId);
+                .HasForeignKey(a => a.BaseId)
+                .OnDelete(DeleteBehavior.ClientCascade);
             
 
         }
