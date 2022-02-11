@@ -1,6 +1,7 @@
 ﻿#nullable disable
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,8 @@ namespace SW.WebAPI.Controllers
 {
     public class ClonesController : Controller
     {
-        private readonly SWContext _context;
         private ICloneRepository _cloneRepository;
 
-        public ClonesController(SWContext context)
-        {
-            _context = context;
-        }
         public ClonesController(ICloneRepository cloneRepository)
         {
             _cloneRepository = cloneRepository;
@@ -27,10 +23,10 @@ namespace SW.WebAPI.Controllers
         // GET: Clones
         public async Task<IActionResult> Index()
         {
-            var sWContext = _context.Clones.Include(c => c.Base).Include(c => c.Legion).Include(c => c.Starship);
+            
             var clones = from s in _cloneRepository.GetClones()
                          select s;
-            return View(await sWContext.ToListAsync());
+            return View(clones);
         }
 
         // GET: Clones/Details/5
@@ -48,10 +44,7 @@ namespace SW.WebAPI.Controllers
         // GET: Clones/Create
         public IActionResult Create()
         {
-            ViewData["BaseId"] = new SelectList(_context.Base, "Id", "Id");
-            ViewData["LegionId"] = new SelectList(_context.Legions, "Id", "Id");
-            ViewData["StarshipId"] = new SelectList(_context.Starships, "Id", "Id");
-            return View();
+            return View(new Clone());
         }
 
         // POST: Clones/Create
@@ -67,28 +60,17 @@ namespace SW.WebAPI.Controllers
                 _cloneRepository.Save();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BaseId"] = new SelectList(_context.Base, "Id", "Id", clone.BaseId);
-            ViewData["LegionId"] = new SelectList(_context.Legions, "Id", "Id", clone.LegionId);
-            ViewData["StarshipId"] = new SelectList(_context.Starships, "Id", "Id", clone.StarshipId);
             return View(clone);
         }
 
         // GET: Clones/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var clone = _cloneRepository.GetCloneByID(id);
             if (clone == null)
             {
                 return NotFound();
             }
-            ViewData["BaseId"] = new SelectList(_context.Base, "Id", "Id", clone.BaseId);
-            ViewData["LegionId"] = new SelectList(_context.Legions, "Id", "Id", clone.LegionId);
-            ViewData["StarshipId"] = new SelectList(_context.Starships, "Id", "Id", clone.StarshipId);
             return View(clone);
         }
 
@@ -111,42 +93,23 @@ namespace SW.WebAPI.Controllers
                     _cloneRepository.UpdateClone(clone);
                     _cloneRepository.Save();
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DataException)
                 {
-                    if (!CloneExists(clone.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BaseId"] = new SelectList(_context.Base, "Id", "Id", clone.BaseId);
-            ViewData["LegionId"] = new SelectList(_context.Legions, "Id", "Id", clone.LegionId);
-            ViewData["StarshipId"] = new SelectList(_context.Starships, "Id", "Id", clone.StarshipId);
             return View(clone);
         }
 
         // GET: Clones/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id, bool? saveChangesError)
         {
-            if (id == null)
+            if (saveChangesError.GetValueOrDefault())
             {
-                return NotFound();
+                ViewBag.ErrorMessage = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
             }
-
-            var clone = await _context.Clones
-                .Include(c => c.Base)
-                .Include(c => c.Legion)
-                .Include(c => c.Starship)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (clone == null)
-            {
-                return NotFound();
-            }
+            Clone clone = _cloneRepository.GetCloneByID(id);
 
             return View(clone);
         }
@@ -164,13 +127,8 @@ namespace SW.WebAPI.Controllers
             }
             catch (Exception)
             {
-                return RedirectToAction("Delete", new { id = id });
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
             }
-        }
-
-        private bool CloneExists(int id)
-        {
-            return _context.Clones.Any(e => e.Id == id);
         }
 
         protected override void Dispose(bool disposing)
