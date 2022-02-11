@@ -13,26 +13,20 @@ namespace SW.WebAPI.Controllers
 {
     public class ClonesController : Controller
     {
-        private ICloneRepository _cloneRepository;
-
-        public ClonesController(ICloneRepository cloneRepository)
-        {
-            _cloneRepository = cloneRepository;
-        }
+        private UnitOfWork _unitOfWork = new UnitOfWork();
 
         // GET: Clones
         public async Task<IActionResult> Index()
         {
-            
-            var clones = from s in _cloneRepository.GetClones()
-                         select s;
+
+            var clones = _unitOfWork.CloneRepository.Get();
             return View(clones);
         }
 
         // GET: Clones/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var clone = _cloneRepository.GetCloneByID(id);
+            var clone = _unitOfWork.CloneRepository.GetByID(id);
             if (clone == null)
             {
                 return NotFound();
@@ -56,8 +50,8 @@ namespace SW.WebAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                _cloneRepository.InsertClone(clone);
-                _cloneRepository.Save();
+                _unitOfWork.CloneRepository.Insert(clone);
+                _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(clone);
@@ -66,7 +60,7 @@ namespace SW.WebAPI.Controllers
         // GET: Clones/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var clone = _cloneRepository.GetCloneByID(id);
+            var clone = _unitOfWork.CloneRepository.GetByID(id);
             if (clone == null)
             {
                 return NotFound();
@@ -90,8 +84,8 @@ namespace SW.WebAPI.Controllers
             {
                 try
                 {
-                    _cloneRepository.UpdateClone(clone);
-                    _cloneRepository.Save();
+                    _unitOfWork.CloneRepository.Update(clone);
+                    _unitOfWork.Save();
                 }
                 catch (DataException)
                 {
@@ -109,7 +103,7 @@ namespace SW.WebAPI.Controllers
             {
                 ViewBag.ErrorMessage = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
             }
-            Clone clone = _cloneRepository.GetCloneByID(id);
+            Clone clone = _unitOfWork.CloneRepository.GetByID(id);
 
             return View(clone);
         }
@@ -121,8 +115,8 @@ namespace SW.WebAPI.Controllers
         {
             try
             {
-                _cloneRepository.DeleteClone(id);
-                _cloneRepository.Save();
+                _unitOfWork.CloneRepository.Delete(id);
+                _unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)
@@ -133,7 +127,7 @@ namespace SW.WebAPI.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            _cloneRepository.Dispose();
+            _unitOfWork.Dispose();
             base.Dispose(disposing);
         }
     }
