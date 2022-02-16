@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public class GenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity>: IGenericRepository<TEntity> where TEntity : class
     {
         private SWContext _swContext;
-        private readonly DbSet<TEntity> _dbSet;
+        private DbSet<TEntity> _dbSet;
 
         public GenericRepository(SWContext context)
         {
@@ -47,7 +47,7 @@ namespace SW.DAL
             }
         }
 
-        public virtual TEntity GetByID(object id)
+        public virtual TEntity GetById(object id)
         {
             return _dbSet.Find(id);
         }
