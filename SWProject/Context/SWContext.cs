@@ -11,11 +11,11 @@ namespace SW.DAL
 {
     public class SWContext : DbContext
     {
-        public DbSet<Base> Base { get; set; }
+        public DbSet<Base> Bases { get; set; }
         public DbSet<Supply> Supplies { get; set; }
         public DbSet<Clone> Clones { get; set; }
         public DbSet<Droid> Droids { get; set; }
-        public DbSet<Jedi> Jedies { get; set; }
+        public DbSet<Jedi> Jedis { get; set; }
         public DbSet<Legion> Legions { get; set; }
         public DbSet<BaseFleet> Fleets { get; set; }
         public DbSet<Starship> Starships { get; set; }
