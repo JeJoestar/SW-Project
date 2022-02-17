@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICloneRepository, CloneRepository>();
 builder.Services.AddTransient<IDroidRepository, DroidRepository>();
-
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 
 var app = builder.Build();

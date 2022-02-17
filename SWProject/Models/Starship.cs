@@ -11,7 +11,7 @@ namespace SW.DAL
         public List<Droid> Droids { get; set; }
         public List<Clone> Passangers { get; set; }
         public string PathList { get; set; }
-        public StarshipWeaponry? Weaponry { get; set; }
+        public StarshipWeaponry Weaponry { get; set; }
         public BaseFleet Fleet { get; set; }
         public int FleetId { get; set; }
         public string Type { get; set; }

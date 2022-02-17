@@ -8,11 +8,11 @@ namespace SW.DAL
 {
     public class Legion : BaseEntity
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
-        public int? GeneralJediId { get; set; }
+        public int GeneralJediId { get; set; }
 
-        public Jedi? GeneralJedi { get; set; }
+        public Jedi GeneralJedi { get; set; }
         
         
         // public Clone? Commander { get; set; }

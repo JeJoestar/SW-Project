@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public class CloneRepository: ICloneRepository
+    public class CloneRepository : GenericRepository<Clone>, ICloneRepository
     {
+        public CloneRepository(SWContext context) : base(context)
+        {
+        }
     }
 }

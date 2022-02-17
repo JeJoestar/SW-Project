@@ -11,10 +11,13 @@ using SW.DAL;
 
 namespace SW.WebAPI.Controllers
 {
-    public class ClonesController : Controller
+    public class CloneController : Controller
     {
-        private UnitOfWork _unitOfWork = new UnitOfWork();
-
+        private IUnitOfWork _unitOfWork;
+        public CloneController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
         // GET: Clones
         public async Task<IActionResult> Index()
         {
@@ -26,7 +29,7 @@ namespace SW.WebAPI.Controllers
         // GET: Clones/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var clone = _unitOfWork.CloneRepository.GetByID(id);
+            var clone = _unitOfWork.CloneRepository.GetById(id);
             if (clone == null)
             {
                 return NotFound();
@@ -60,7 +63,7 @@ namespace SW.WebAPI.Controllers
         // GET: Clones/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var clone = _unitOfWork.CloneRepository.GetByID(id);
+            var clone = _unitOfWork.CloneRepository.GetById(id);
             if (clone == null)
             {
                 return NotFound();
@@ -103,7 +106,7 @@ namespace SW.WebAPI.Controllers
             {
                 ViewBag.ErrorMessage = "Unable to save changes. Try again, and if the problem persists see your system administrator.";
             }
-            Clone clone = _unitOfWork.CloneRepository.GetByID(id);
+            Clone clone = _unitOfWork.CloneRepository.GetById(id);
 
             return View(clone);
         }

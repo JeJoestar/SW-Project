@@ -8,11 +8,11 @@ namespace SW.DAL
 {
     public class Base : BaseEntity
     {
-        public BaseFleet? AttachedFleet { get; set; }
+        public BaseFleet AttachedFleet { get; set; }
         public int? AttachedFleetId { get; set; }
         public List<Droid> Droids { get; set; }
         public List<Clone> Clones { get; set; }
-        public Supply? AmmoSupply { get; set; }
+        public Supply AmmoSupply { get; set; }
         
     }
 }

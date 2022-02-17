@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public class DroidRepository : GenericRepository<Clone>, IDroidRepository
+    public class DroidRepository : GenericRepository<Droid>, IDroidRepository
     {
         public DroidRepository(SWContext context) : base(context)
         {

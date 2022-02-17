@@ -9,6 +9,7 @@ namespace SW.DAL
     public interface IUnitOfWork: IDisposable
     {
         public IGenericRepository<Clone> CloneRepository { get; }
+        public IGenericRepository<Droid> DroidRepository { get; }
         public void Save();
         
     }
