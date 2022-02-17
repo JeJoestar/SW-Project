@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SW.DAL;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,10 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<ICloneRepository, CloneRepository>();
 builder.Services.AddTransient<IDroidRepository, DroidRepository>();
-builder.Services.AddTransient<ILegionRepository, LegionRepository>();
 builder.Services.AddTransient<IJediRepository, JediRepository>();
+builder.Services.AddTransient<ILegionRepository, LegionRepository>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-
 
 var app = builder.Build();
 

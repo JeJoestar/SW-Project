@@ -10,7 +10,7 @@ using SW.DAL;
 
 namespace SW.DAL.Migrations
 {
-    [DbContext(typeof(SWContext))]
+    [DbContext(typeof(IUnitOfWork))]
     partial class SWContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

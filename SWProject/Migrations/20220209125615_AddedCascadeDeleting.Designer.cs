@@ -11,7 +11,7 @@ using SW.DAL;
 
 namespace SW.DAL.Migrations
 {
-    [DbContext(typeof(SWContext))]
+    [DbContext(typeof(IUnitOfWork))]
     [Migration("20220209125615_AddedCascadeDeleting")]
     partial class AddedCascadeDeleting
     {

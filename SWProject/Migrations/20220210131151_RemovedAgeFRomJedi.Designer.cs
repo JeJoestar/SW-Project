@@ -11,7 +11,7 @@ using SW.DAL;
 
 namespace SW.DAL.Migrations
 {
-    [DbContext(typeof(SWContext))]
+    [DbContext(typeof(IUnitOfWork))]
     [Migration("20220210131151_RemovedAgeFRomJedi")]
     partial class RemovedAgeFRomJedi
     {
