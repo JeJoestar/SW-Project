@@ -19,7 +19,7 @@ namespace SW.DAL
             _dbSet = context.Set<TEntity>();
         }
 
-        public virtual IEnumerable<TEntity> Get(
+        public async Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "")
@@ -47,20 +47,22 @@ namespace SW.DAL
             }
         }
 
-        public virtual TEntity GetById(object id)
+        public async Task<TEntity> GetByIdAsync(object id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public virtual void Insert(TEntity entity)
+        public async Task<TEntity> InsertAsync(TEntity entity)
         {
-            _dbSet.Add(entity);
+            await _dbSet.AddAsync(entity);
+            return entity;
         }
 
-        public virtual void Delete(object id)
+        public async Task<TEntity> DeleteAsync(object id)
         {
-            TEntity entityToDelete = _dbSet.Find(id);
+            TEntity entityToDelete = await _dbSet.FindAsync(id);
             Delete(entityToDelete);
+            return entityToDelete;
         }
 
         public virtual void Delete(TEntity entityToDelete)

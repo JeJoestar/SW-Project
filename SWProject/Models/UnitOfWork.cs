@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public class UnitOfWork : IDisposable, IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private SWContext _swContext = new SWContext();
         private IGenericRepository<Clone> _cloneRepository;
@@ -46,29 +46,10 @@ namespace SW.DAL
         public IGenericRepository<StarshipWeaponry> StarshipWeaponryRepository 
             => _starshipWeaponryRepository ?? (_starshipWeaponryRepository = new GenericRepository<StarshipWeaponry>(_swContext));
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _swContext.SaveChanges();
+            await _swContext.SaveChangesAsync();
         }
-
-        private bool disposed = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
-            {
-                if (disposing)
-                {
-                    _swContext.Dispose();
-                }
-            }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+ 
     }
 }

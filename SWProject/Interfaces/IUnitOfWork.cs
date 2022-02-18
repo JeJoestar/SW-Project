@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IUnitOfWork
     {
         public IGenericRepository<Clone> CloneRepository { get; }
         public IGenericRepository<Droid> DroidRepository { get; }
@@ -17,7 +17,7 @@ namespace SW.DAL
         public IGenericRepository<Starship> StarshipRepository { get; }
         public IGenericRepository<Supply> SupplyRepository { get; }
         public IGenericRepository<StarshipWeaponry> StarshipWeaponryRepository { get; }
-        public void Save();
+        public Task SaveAsync();
         
     }
 }

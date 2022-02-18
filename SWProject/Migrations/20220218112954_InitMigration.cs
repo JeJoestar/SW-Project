@@ -21,24 +21,25 @@ namespace SW.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jedies",
+                name: "Jedis",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PadawanId = table.Column<int>(type: "int", nullable: true),
-                    TeacherId = table.Column<int>(type: "int", nullable: true),
-                    LegionId = table.Column<int>(type: "int", nullable: true)
+                    PadawanId = table.Column<int>(type: "int", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: false),
+                    LegionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Jedies", x => x.Id);
+                    table.PrimaryKey("PK_Jedis", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Jedies_Jedies_PadawanId",
+                        name: "FK_Jedis_Jedis_PadawanId",
                         column: x => x.PadawanId,
-                        principalTable: "Jedies",
-                        principalColumn: "Id");
+                        principalTable: "Jedis",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -79,16 +80,17 @@ namespace SW.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GeneralJediId = table.Column<int>(type: "int", nullable: true)
+                    GeneralJediId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Legions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Legions_Jedies_GeneralJediId",
+                        name: "FK_Legions_Jedis_GeneralJediId",
                         column: x => x.GeneralJediId,
-                        principalTable: "Jedies",
-                        principalColumn: "Id");
+                        principalTable: "Jedis",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,10 +99,10 @@ namespace SW.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PathList = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PathList = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     WeaponryId = table.Column<int>(type: "int", nullable: true),
                     FleetId = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,8 +111,7 @@ namespace SW.DAL.Migrations
                         name: "FK_Starships_Fleets_FleetId",
                         column: x => x.FleetId,
                         principalTable: "Fleets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Starships_StarshipWeaponries_WeaponryId",
                         column: x => x.WeaponryId,
@@ -119,7 +120,7 @@ namespace SW.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Base",
+                name: "Bases",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -129,14 +130,14 @@ namespace SW.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Base", x => x.Id);
+                    table.PrimaryKey("PK_Bases", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Base_Fleets_AttachedFleetId",
+                        name: "FK_Bases_Fleets_AttachedFleetId",
                         column: x => x.AttachedFleetId,
                         principalTable: "Fleets",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Base_Supplies_AmmoSupplyId",
+                        name: "FK_Bases_Supplies_AmmoSupplyId",
                         column: x => x.AmmoSupplyId,
                         principalTable: "Supplies",
                         principalColumn: "Id");
@@ -149,9 +150,9 @@ namespace SW.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LegionId = table.Column<int>(type: "int", nullable: true),
-                    BaseId = table.Column<int>(type: "int", nullable: true),
-                    StarshipId = table.Column<int>(type: "int", nullable: true),
+                    LegionId = table.Column<int>(type: "int", nullable: false),
+                    BaseId = table.Column<int>(type: "int", nullable: false),
+                    StarshipId = table.Column<int>(type: "int", nullable: false),
                     Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Qualification = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -159,9 +160,9 @@ namespace SW.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Clones", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clones_Base_BaseId",
+                        name: "FK_Clones_Bases_BaseId",
                         column: x => x.BaseId,
-                        principalTable: "Base",
+                        principalTable: "Bases",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Clones_Legions_LegionId",
@@ -176,39 +177,39 @@ namespace SW.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Droid",
+                name: "Droids",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BaseId = table.Column<int>(type: "int", nullable: true),
-                    StarshipId = table.Column<int>(type: "int", nullable: true),
+                    BaseId = table.Column<int>(type: "int", nullable: false),
+                    StarshipId = table.Column<int>(type: "int", nullable: false),
                     Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Droid", x => x.Id);
+                    table.PrimaryKey("PK_Droids", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Droid_Base_BaseId",
+                        name: "FK_Droids_Bases_BaseId",
                         column: x => x.BaseId,
-                        principalTable: "Base",
+                        principalTable: "Bases",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Droid_Starships_StarshipId",
+                        name: "FK_Droids_Starships_StarshipId",
                         column: x => x.StarshipId,
                         principalTable: "Starships",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Base_AmmoSupplyId",
-                table: "Base",
+                name: "IX_Bases_AmmoSupplyId",
+                table: "Bases",
                 column: "AmmoSupplyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Base_AttachedFleetId",
-                table: "Base",
+                name: "IX_Bases_AttachedFleetId",
+                table: "Bases",
                 column: "AttachedFleetId");
 
             migrationBuilder.CreateIndex(
@@ -227,28 +228,26 @@ namespace SW.DAL.Migrations
                 column: "StarshipId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Droid_BaseId",
-                table: "Droid",
+                name: "IX_Droids_BaseId",
+                table: "Droids",
                 column: "BaseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Droid_StarshipId",
-                table: "Droid",
+                name: "IX_Droids_StarshipId",
+                table: "Droids",
                 column: "StarshipId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jedies_PadawanId",
-                table: "Jedies",
+                name: "IX_Jedis_PadawanId",
+                table: "Jedis",
                 column: "PadawanId",
-                unique: true,
-                filter: "[PadawanId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Legions_GeneralJediId",
                 table: "Legions",
                 column: "GeneralJediId",
-                unique: true,
-                filter: "[GeneralJediId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Starships_FleetId",
@@ -267,19 +266,19 @@ namespace SW.DAL.Migrations
                 name: "Clones");
 
             migrationBuilder.DropTable(
-                name: "Droid");
+                name: "Droids");
 
             migrationBuilder.DropTable(
                 name: "Legions");
 
             migrationBuilder.DropTable(
-                name: "Base");
+                name: "Bases");
 
             migrationBuilder.DropTable(
                 name: "Starships");
 
             migrationBuilder.DropTable(
-                name: "Jedies");
+                name: "Jedis");
 
             migrationBuilder.DropTable(
                 name: "Supplies");

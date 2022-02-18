@@ -9,14 +9,17 @@ namespace SW.DAL
 {
     public interface IGenericRepository<TEntity> where TEntity: class
     {
-        public IEnumerable<TEntity> Get(
+        public Task<IEnumerable<TEntity>> GetAsync(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "");
-        public TEntity GetById(object id);
-        public void Insert(TEntity entity);
-        public void Delete(object id);
-        public void Delete(TEntity entityToDelete);
+
+        public Task<TEntity> GetByIdAsync(object id);
+        
+        public Task<TEntity> InsertAsync(TEntity entity);
+
+        public Task<TEntity> DeleteAsync(object id);
+
         public void Update(TEntity entityToUpdate);
     }
 }

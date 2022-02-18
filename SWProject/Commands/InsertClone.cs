@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MediatR;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public interface ICloneRepository: IGenericRepository<Clone>
+   public class InsertClone: IRequest<Clone>
     {
+        public Clone Clone { get; set; }
     }
 }
