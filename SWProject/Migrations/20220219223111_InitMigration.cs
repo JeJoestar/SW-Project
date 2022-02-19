@@ -27,9 +27,9 @@ namespace SW.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PadawanId = table.Column<int>(type: "int", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: false),
-                    LegionId = table.Column<int>(type: "int", nullable: false)
+                    PadawanId = table.Column<int>(type: "int", nullable: true),
+                    TeacherId = table.Column<int>(type: "int", nullable: true),
+                    LegionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -38,8 +38,7 @@ namespace SW.DAL.Migrations
                         name: "FK_Jedis_Jedis_PadawanId",
                         column: x => x.PadawanId,
                         principalTable: "Jedis",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -111,7 +110,8 @@ namespace SW.DAL.Migrations
                         name: "FK_Starships_Fleets_FleetId",
                         column: x => x.FleetId,
                         principalTable: "Fleets",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Starships_StarshipWeaponries_WeaponryId",
                         column: x => x.WeaponryId,
@@ -163,17 +163,20 @@ namespace SW.DAL.Migrations
                         name: "FK_Clones_Bases_BaseId",
                         column: x => x.BaseId,
                         principalTable: "Bases",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Clones_Legions_LegionId",
                         column: x => x.LegionId,
                         principalTable: "Legions",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Clones_Starships_StarshipId",
                         column: x => x.StarshipId,
                         principalTable: "Starships",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,12 +197,14 @@ namespace SW.DAL.Migrations
                         name: "FK_Droids_Bases_BaseId",
                         column: x => x.BaseId,
                         principalTable: "Bases",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Droids_Starships_StarshipId",
                         column: x => x.StarshipId,
                         principalTable: "Starships",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -241,7 +246,8 @@ namespace SW.DAL.Migrations
                 name: "IX_Jedis_PadawanId",
                 table: "Jedis",
                 column: "PadawanId",
-                unique: true);
+                unique: true,
+                filter: "[PadawanId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Legions_GeneralJediId",

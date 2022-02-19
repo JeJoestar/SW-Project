@@ -19,32 +19,15 @@ namespace SW.DAL
             _dbSet = context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> GetAsync(
-            Expression<Func<TEntity, bool>> filter = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "")
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            IQueryable<TEntity> query = _dbSet;
+            return await _dbSet.ToListAsync();
+        }
 
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                query = query.Include(includeProperty);
-            }
-
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
-            }
+        public async Task<IEnumerable<TEntity>> GetAsync(
+            Expression<Func<TEntity, bool>> filter = null)
+        {
+            return await _dbSet.Where(filter).ToListAsync();
         }
 
         public async Task<TEntity> GetByIdAsync(object id)
@@ -74,10 +57,5 @@ namespace SW.DAL
             _dbSet.Remove(entityToDelete);
         }
 
-        public virtual void Update(TEntity entityToUpdate)
-        {
-            _dbSet.Attach(entityToUpdate);
-            _swContext.Entry(entityToUpdate).State = EntityState.Modified;
-        }
     }
 }

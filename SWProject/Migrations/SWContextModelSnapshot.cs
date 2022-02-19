@@ -17,7 +17,7 @@ namespace SW.DAL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -132,22 +132,23 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("LegionId")
+                    b.Property<int?>("LegionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PadawanId")
+                    b.Property<int?>("PadawanId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeacherId")
+                    b.Property<int?>("TeacherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PadawanId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[PadawanId] IS NOT NULL");
 
                     b.ToTable("Jedis");
                 });
@@ -270,19 +271,19 @@ namespace SW.DAL.Migrations
                     b.HasOne("SW.DAL.Base", "Base")
                         .WithMany("Clones")
                         .HasForeignKey("BaseId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SW.DAL.Legion", "Legion")
                         .WithMany("Clones")
                         .HasForeignKey("LegionId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SW.DAL.Starship", "Starship")
                         .WithMany("Passangers")
                         .HasForeignKey("StarshipId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Base");
@@ -297,13 +298,13 @@ namespace SW.DAL.Migrations
                     b.HasOne("SW.DAL.Base", "Base")
                         .WithMany("Droids")
                         .HasForeignKey("BaseId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SW.DAL.Starship", "Starship")
                         .WithMany("Droids")
                         .HasForeignKey("StarshipId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Base");
@@ -315,9 +316,7 @@ namespace SW.DAL.Migrations
                 {
                     b.HasOne("SW.DAL.Jedi", "Padawan")
                         .WithOne("Teacher")
-                        .HasForeignKey("SW.DAL.Jedi", "PadawanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SW.DAL.Jedi", "PadawanId");
 
                     b.Navigation("Padawan");
                 });
@@ -338,7 +337,7 @@ namespace SW.DAL.Migrations
                     b.HasOne("SW.DAL.BaseFleet", "Fleet")
                         .WithMany("Starships")
                         .HasForeignKey("FleetId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SW.DAL.StarshipWeaponry", "Weaponry")

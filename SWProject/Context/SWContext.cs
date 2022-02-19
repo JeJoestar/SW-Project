@@ -49,15 +49,13 @@ namespace SW.DAL
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Legion)
                 .WithMany(legion => legion.Clones)
-                .HasForeignKey(clone => clone.LegionId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(clone => clone.LegionId);
                                                            
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Base)
                 .WithMany(basee => basee.Clones)
-                .HasForeignKey(clone => clone.BaseId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(clone => clone.BaseId);
 
 
             modelBuilder.Entity<Legion>()
@@ -69,28 +67,26 @@ namespace SW.DAL
             modelBuilder.Entity<Jedi>()
                 .HasOne(jedi => jedi.Padawan)
                 .WithOne(jedi => jedi.Teacher)
-                .HasForeignKey<Jedi>(a => a.PadawanId); 
+                .HasForeignKey<Jedi>(a => a.PadawanId)
+                .OnDelete(DeleteBehavior.ClientSetNull); 
                                                         
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Starship)
                 .WithMany(starDestroyer => starDestroyer.Passangers)
-                .HasForeignKey(a => a.StarshipId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(a => a.StarshipId);
 
 
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Starship)
                 .WithMany(starDestroyer => starDestroyer.Droids)
-                .HasForeignKey(a => a.StarshipId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(a => a.StarshipId);
 
 
             modelBuilder.Entity<Starship>()
                 .HasOne(starDestroyer => starDestroyer.Fleet)
                 .WithMany(fleet => fleet.Starships)
-                .HasForeignKey(a => a.FleetId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(a => a.FleetId);
 
 
             modelBuilder.Entity<Base>()
@@ -102,8 +98,7 @@ namespace SW.DAL
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Base)
                 .WithMany(basee => basee.Droids)
-                .HasForeignKey(a => a.BaseId)
-                .OnDelete(DeleteBehavior.ClientCascade);
+                .HasForeignKey(a => a.BaseId);
             
 
         }
