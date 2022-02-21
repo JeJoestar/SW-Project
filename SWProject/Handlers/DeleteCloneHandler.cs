@@ -7,16 +7,16 @@ using MediatR;
 
 namespace SW.DAL
 {
-    public class DeleteCloneHandler : IRequestHandler<DeleteClone, Clone>
+    public class DeleteDroidHandler : IRequestHandler<DeleteDroid, Droid>
     {
-        private IGenericRepository<Clone> _repository;
+        private IGenericRepository<Droid> _repository;
 
-        public DeleteCloneHandler(IUnitOfWork unitOfWork)
+        public DeleteDroidHandler(IUnitOfWork unitOfWork)
         {
-            _repository = unitOfWork.CloneRepository;
+            _repository = unitOfWork.DroidRepository;
         }
 
-        public async Task<Clone> Handle(DeleteClone request, CancellationToken cancellationToken)
+        public async Task<Droid> Handle(DeleteDroid request, CancellationToken cancellationToken)
             => await _repository.DeleteAsync(request.Id);
         
     }

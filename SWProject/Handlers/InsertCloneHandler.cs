@@ -7,17 +7,17 @@ using MediatR;
 
 namespace SW.DAL
 {
-    public class InsertCloneHandler : IRequestHandler<InsertClone, Clone>
+    public class InsertDroidHandler : IRequestHandler<InsertDroid, Droid>
     {
-        private IGenericRepository<Clone> _repository;
+        private IGenericRepository<Droid> _repository;
 
-        public InsertCloneHandler(IUnitOfWork unitOfWork)
+        public InsertDroidHandler(IUnitOfWork unitOfWork)
         {
-            _repository = unitOfWork.CloneRepository;
+            _repository = unitOfWork.DroidRepository;
         }
 
 
-        public async Task<Clone> Handle(InsertClone request, CancellationToken cancellationToken) 
-            => await _repository.InsertAsync(request.Clone);
+        public async Task<Droid> Handle(InsertDroid request, CancellationToken cancellationToken) 
+            => await _repository.InsertAsync(request.Droid);
     }
 }

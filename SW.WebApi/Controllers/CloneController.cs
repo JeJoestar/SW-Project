@@ -33,19 +33,41 @@ namespace SW.WebAPI.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var clone = await _mediator.Send(new GetCloneById { Id = id });
-            return Ok(clone);
+            if (clone is null)
+                return NotFound();
+            CloneDTO returnClone = new()
+            {
+                Number = clone.Number,
+                LegionId = clone.LegionId,
+                BaseId = clone.BaseId,
+                StarshipId = clone.StarshipId,
+                Equipment = clone.Equipment,
+                Qualification = clone.Qualification
+            };
+            return Ok(returnClone);
         } 
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody]Clone clone)
+        public async Task<IActionResult> Insert([FromBody]CloneDTO clone)
         {
-           var result = await _mediator.Send(new InsertClone() { Clone = clone});
+            var result = await _mediator.Send(new InsertClone()
+            {
+                Clone = new Clone()
+                {
+                    Number = clone.Number,
+                    LegionId = clone.LegionId,
+                    BaseId = clone.BaseId,
+                    StarshipId = clone.StarshipId,
+                    Equipment = clone.Equipment,
+                    Qualification = clone.Qualification
+                }
+            });
            return Ok(result);
         }
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var clone = await _mediator.Send(new DeleteClone() { Id = id });
-            return Ok(clone);
+            var result = await _mediator.Send(new DeleteClone() { Id = id });
+            return Ok(result);
         }
         
     }

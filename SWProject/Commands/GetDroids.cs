@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public class GetDroids: IRequest<IEnumerable<Droid>>
+    public class GetClones: IRequest<IEnumerable<Clone>>
     {
-        public Expression<Func<Droid, bool>> Filter { get; set; } 
+        public Expression<Func<Clone, bool>> Filter { get; set; } 
     }
 }

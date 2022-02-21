@@ -1,13 +1,14 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace SW.DAL
 {
-    public class GetAllClones: IRequest<IEnumerable<Clone>>
+    public class DeleteDroid: IRequest<Droid>
     {
+        public int Id { get; set; }
     }
 }

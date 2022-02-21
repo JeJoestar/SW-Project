@@ -11,8 +11,6 @@ namespace SW.DAL
     {
         public Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter);
 
-        public Task<IEnumerable<TEntity>> GetAllAsync();
-
         public Task<TEntity> GetByIdAsync(object id);
         
         public Task<TEntity> InsertAsync(TEntity entity);

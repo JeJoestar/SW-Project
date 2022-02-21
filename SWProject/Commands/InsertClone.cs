@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-   public class InsertClone: IRequest<Clone>
+   public class InsertDroid: IRequest<Droid>
     {
-        public Clone Clone { get; set; }
+        public Droid Droid { get; set; }
     }
 }
