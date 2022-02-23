@@ -1,10 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
+﻿// <copyright file="SWContext.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace SW.DAL
@@ -21,7 +19,7 @@ namespace SW.DAL
         public DbSet<Starship> Starships { get; set; }
         public DbSet<StarshipWeaponry> StarshipWeaponries { get; set; }
 
-        private string _connectionString;
+        private readonly string _connectionString;
 
         public SWContext()
         {
@@ -45,62 +43,51 @@ namespace SW.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Legion)
                 .WithMany(legion => legion.Clones)
                 .HasForeignKey(clone => clone.LegionId);
-                                                           
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Base)
                 .WithMany(basee => basee.Clones)
                 .HasForeignKey(clone => clone.BaseId);
 
-
             modelBuilder.Entity<Legion>()
                 .HasOne(legion => legion.GeneralJedi)
                 .WithOne(jedi => jedi.Legion)
-                .HasForeignKey<Legion>(a => a.GeneralJediId); 
-                                                              
+                .HasForeignKey<Legion>(a => a.GeneralJediId);
 
             modelBuilder.Entity<Jedi>()
                 .HasOne(jedi => jedi.Padawan)
                 .WithOne(jedi => jedi.Teacher)
                 .HasForeignKey<Jedi>(a => a.PadawanId)
-                .OnDelete(DeleteBehavior.ClientSetNull); 
-                                                        
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Clone>()
                 .HasOne(clone => clone.Starship)
                 .WithMany(starDestroyer => starDestroyer.Passangers)
                 .HasForeignKey(a => a.StarshipId);
 
-
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Starship)
                 .WithMany(starDestroyer => starDestroyer.Droids)
                 .HasForeignKey(a => a.StarshipId);
-
 
             modelBuilder.Entity<Starship>()
                 .HasOne(starDestroyer => starDestroyer.Fleet)
                 .WithMany(fleet => fleet.Starships)
                 .HasForeignKey(a => a.FleetId);
 
-
             modelBuilder.Entity<Base>()
                 .HasOne(basee => basee.AttachedFleet)
                 .WithMany(fleet => fleet.AttachedBases)
                 .HasForeignKey(a => a.AttachedFleetId);
 
-
             modelBuilder.Entity<Droid>()
                 .HasOne(droid => droid.Base)
                 .WithMany(basee => basee.Droids)
                 .HasForeignKey(a => a.BaseId);
-            
-
         }
     }
 }

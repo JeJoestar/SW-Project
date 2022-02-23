@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// <copyright file="IGenericRepository.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SW.DAL
 {
-    public interface IGenericRepository<TEntity> where TEntity: class
+    public interface IGenericRepository<TEntity>
+        where TEntity : class
     {
         public Task<IEnumerable<TEntity>> GetAsync(Expression<Func<TEntity, bool>> filter);
 

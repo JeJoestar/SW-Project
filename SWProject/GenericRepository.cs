@@ -1,17 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿// <copyright file="GenericRepository.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace SW.DAL
 {
-    public class GenericRepository<TEntity>: IGenericRepository<TEntity> where TEntity : class
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity>
+        where TEntity : class
     {
-        private SWContext _swContext;
-        private DbSet<TEntity> _dbSet;
+        private readonly SWContext _swContext;
+        private readonly DbSet<TEntity> _dbSet;
 
         public GenericRepository(SWContext context)
         {
@@ -51,6 +51,5 @@ namespace SW.DAL
             }
             _dbSet.Remove(entityToDelete);
         }
-
     }
 }

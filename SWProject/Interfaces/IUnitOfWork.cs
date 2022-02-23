@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="IUnitOfWork.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
 
 namespace SW.DAL
 {
@@ -17,7 +15,6 @@ namespace SW.DAL
         public IGenericRepository<Starship> StarshipRepository { get; }
         public IGenericRepository<Supply> SupplyRepository { get; }
         public IGenericRepository<StarshipWeaponry> StarshipWeaponryRepository { get; }
-        public Task SaveAsync();
-        
+        public Task SaveAsync();  
     }
 }

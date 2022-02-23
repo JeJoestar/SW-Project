@@ -1,14 +1,11 @@
-﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+﻿// <copyright file="DroidController.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
+#nullable disable
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using SW.DAL;
 
 namespace SW.WebAPI.Controllers
@@ -32,10 +29,12 @@ namespace SW.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var droid = await _mediator.Send(new GetDroidById { Id = id });
+            var droid = await _mediator.Send(new GetDroidByIdQuerry { DroidId = id });
             if (droid is null)
+            {
                 return NotFound();
-            DroidDTO returnClone = new()
+            }
+            DroidDTO returnClone = new ()
             {
                 Model = droid.Model,
                 BaseId = droid.BaseId,
@@ -47,7 +46,7 @@ namespace SW.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] DroidDTO droid)
         {
-            var result = await _mediator.Send(new InsertDroid()
+            var result = await _mediator.Send(new InsertDroidCommand()
             {
                 Droid = new Droid()
                 {
@@ -62,9 +61,8 @@ namespace SW.WebAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
-            var result = await _mediator.Send(new DeleteDroid() { Id = id });
+            var result = await _mediator.Send(new DeleteDroidCommand() { DroidId = id });
             return Ok(result);
-        }
-        
+        }    
     }
 }
