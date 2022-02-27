@@ -12,7 +12,7 @@ using SW.DAL;
 namespace SW.DAL.Migrations
 {
     [DbContext(typeof(SWContext))]
-    [Migration("20220219223111_InitMigration")]
+    [Migration("20220227100257_InitMigration")]
     partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AmmoSupplyId")
+                    b.Property<int>("AmmoSupplyId")
                         .HasColumnType("int");
 
                     b.Property<int?>("AttachedFleetId")
@@ -239,13 +239,13 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CartridgesCnt")
+                    b.Property<int>("CartridgesCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("FuelCnt")
+                    b.Property<int>("FuelLitresAmount")
                         .HasColumnType("int");
 
-                    b.Property<int>("GrenadesCnt")
+                    b.Property<int>("GrenadesCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -257,7 +257,9 @@ namespace SW.DAL.Migrations
                 {
                     b.HasOne("SW.DAL.Supply", "AmmoSupply")
                         .WithMany()
-                        .HasForeignKey("AmmoSupplyId");
+                        .HasForeignKey("AmmoSupplyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SW.DAL.BaseFleet", "AttachedFleet")
                         .WithMany("AttachedBases")

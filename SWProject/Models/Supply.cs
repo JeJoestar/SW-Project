@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// <copyright file="Supply.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
 
 namespace SW.DAL
 {
     public class Supply : BaseEntity
     {
-        public int CartridgesCnt { get; set; }
-        public int GrenadesCnt { get; set; }
-        public int FuelCnt { get; set; }
+        public int CartridgesCount { get; set; }
 
+        public int GrenadesCount { get; set; }
+
+        public int FuelLitresAmount { get; set; }
     }
 }

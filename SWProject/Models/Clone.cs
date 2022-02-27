@@ -9,10 +9,10 @@ namespace SW.DAL
         public string Number { get; set; }
         public Legion Legion { get; set; }
         public int LegionId { get; set; }
-        public Base Base { get; set; }
-        public int BaseId { get; set; }
-        public Starship Starship { get; set; }
-        public int StarshipId { get; set; }
+        public Base? Base { get; set; }
+        public int? BaseId { get; set; }
+        public Starship? Starship { get; set; }
+        public int? StarshipId { get; set; }
         public string Equipment { get; set; }
         public string Qualification { get; set; }
     }

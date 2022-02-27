@@ -1,8 +1,4 @@
-﻿// <copyright file="20220219223111_InitMigration.cs" company="Star Wars Inc">
-// Copyright (c) Star Wars Inc. All rights reserved.
-// </copyright>
-
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -67,9 +63,9 @@ namespace SW.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CartridgesCnt = table.Column<int>(type: "int", nullable: false),
-                    GrenadesCnt = table.Column<int>(type: "int", nullable: false),
-                    FuelCnt = table.Column<int>(type: "int", nullable: false)
+                    CartridgesCount = table.Column<int>(type: "int", nullable: false),
+                    GrenadesCount = table.Column<int>(type: "int", nullable: false),
+                    FuelLitresAmount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,7 +126,7 @@ namespace SW.DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AttachedFleetId = table.Column<int>(type: "int", nullable: true),
-                    AmmoSupplyId = table.Column<int>(type: "int", nullable: true)
+                    AmmoSupplyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -144,7 +140,8 @@ namespace SW.DAL.Migrations
                         name: "FK_Bases_Supplies_AmmoSupplyId",
                         column: x => x.AmmoSupplyId,
                         principalTable: "Supplies",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

@@ -31,6 +31,11 @@ if (app.Environment.IsDevelopment())
 /*var swConnectionString = builder.Configuration.GetConnectionString("SWDatabase");
 
 var swContext = new SWContext(swConnectionString);*/
+
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+{
+    app.SeedData();
+}
 app.Services.GetService<SWContext>().Database.Migrate();
 app.UseHttpsRedirection();
 
