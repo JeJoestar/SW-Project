@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient(service => 
     new SWContext(builder.Configuration.GetConnectionString("SWDatabase")));
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<SWDataSeeder>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
@@ -32,11 +33,22 @@ if (app.Environment.IsDevelopment())
 
 var swContext = new SWContext(swConnectionString);*/
 
+app.Services.GetService<SWContext>().Database.Migrate();
+
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-    app.SeedData();
+    SeedData(app);
 }
-app.Services.GetService<SWContext>().Database.Migrate();
+
+static void SeedData(IHost app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using var scope = scopedFactory.CreateScope();
+    var service = scope.ServiceProvider.GetService<SWDataSeeder>();
+    service.SeedData();
+}
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
