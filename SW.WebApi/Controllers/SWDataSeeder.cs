@@ -13,7 +13,6 @@ namespace SW.DAL
         }
         public void SeedData()
         {
-            
             var fleets = new List<BaseFleet>()
             {
                 new BaseFleet()

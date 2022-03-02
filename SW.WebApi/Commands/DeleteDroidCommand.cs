@@ -6,11 +6,11 @@ using MediatR;
 
 namespace SW.DAL
 {
-    public class DeleteDroidCommand : IRequest<Droid>
+    public class DeleteDroidCommand : IRequest<DroidDto>
     {
         public int DroidId { get; set; }
 
-        public class DeleteDroidHandler : IRequestHandler<DeleteDroidCommand, Droid>
+        public class DeleteDroidHandler : IRequestHandler<DeleteDroidCommand, DroidDto>
         {
             private readonly IUnitOfWork _unitOfWork;
 
@@ -19,11 +19,18 @@ namespace SW.DAL
                 _unitOfWork = unitOfWork;
             }
 
-            public async Task<Droid> Handle(DeleteDroidCommand request, CancellationToken cancellationToken)
+            public async Task<DroidDto> Handle(DeleteDroidCommand request, CancellationToken cancellationToken)
             {
                 Droid droid = await _unitOfWork.DroidRepository.DeleteAsync(request.DroidId);
                 await _unitOfWork.SaveAsync();
-                return droid;
+                DroidDto droidDto = new ()
+                {
+                    Model = droid.Model,
+                    BaseId = droid.BaseId,
+                    StarshipId = droid.StarshipId,
+                    Equipment = droid.Equipment,
+                };
+                return droidDto;
             }
         }
     }

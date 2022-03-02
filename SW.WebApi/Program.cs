@@ -35,7 +35,7 @@ var swContext = new SWContext(swConnectionString);*/
 
 app.Services.GetService<SWContext>().Database.Migrate();
 
-if (args.Length == 1 && args[0].ToLower() == "seeddata")
+if (args.Length == 1 && args[0] == "seeddata")
 {
     SeedData(app);
 }

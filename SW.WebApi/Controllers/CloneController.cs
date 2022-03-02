@@ -32,37 +32,15 @@ namespace SW.WebAPI.Controllers
         public async Task<IActionResult> GetClone(int id)
         {
             var clone = await _mediator.Send(new GetCloneByIdQuerry { CloneId = id });
-            if (clone is null)
-            {
-                return NotFound();
-            }
-
-            CloneDTO returnClone = new ()
-            {
-                Number = clone.Number,
-                LegionId = clone.LegionId,
-                BaseId = clone.BaseId,
-                StarshipId = clone.StarshipId,
-                Equipment = clone.Equipment,
-                Qualification = clone.Qualification
-            };
-            return Ok(returnClone);
-        } 
+            return clone is null ? NotFound() : Ok(clone);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> InsertClone([FromBody] CloneDTO clone)
+        public async Task<IActionResult> InsertClone([FromBody] CloneDto clone)
         {
             var result = await _mediator.Send(new InsertCloneCommand()
             {
-                Clone = new Clone()
-                {
-                    Number = clone.Number,
-                    LegionId = clone.LegionId,
-                    BaseId = clone.BaseId,
-                    StarshipId = clone.StarshipId,
-                    Equipment = clone.Equipment,
-                    Qualification = clone.Qualification,
-                }
+                CloneDto = clone,
             });
            return Ok(result);
         }

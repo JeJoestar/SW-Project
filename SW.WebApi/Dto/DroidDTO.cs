@@ -1,4 +1,4 @@
-﻿// <copyright file="DroidDTO.cs" company="Star Wars Inc">
+﻿// <copyright file="DroidDto.cs" company="Star Wars Inc">
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SW.DAL
 {
-    public class DroidDTO
+    public class DroidDto
     {
         [Required]
         public string Model { get; set; }

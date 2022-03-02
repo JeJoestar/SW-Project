@@ -6,11 +6,11 @@ using MediatR;
 
 namespace SW.DAL
 {
-   public class InsertCloneCommand : IRequest<Clone>
+   public class InsertCloneCommand : IRequest<CloneDto>
     {
-        public Clone Clone { get; set; }
+        public CloneDto CloneDto { get; set; }
 
-        public class InsertCloneHandler : IRequestHandler<InsertCloneCommand, Clone>
+        public class InsertCloneHandler : IRequestHandler<InsertCloneCommand, CloneDto>
         {
             private readonly IUnitOfWork _unitOfWork;
 
@@ -19,11 +19,20 @@ namespace SW.DAL
                 _unitOfWork = unitOfWork;
             }
 
-            public async Task<Clone> Handle(InsertCloneCommand request, CancellationToken cancellationToken)
+            public async Task<CloneDto> Handle(InsertCloneCommand request, CancellationToken cancellationToken)
             {
-                Clone clone = await _unitOfWork.CloneRepository.InsertAsync(request.Clone);
+                Clone clone = new ()
+                {
+                    Number = request.CloneDto.Number,
+                    LegionId = request.CloneDto.LegionId,
+                    BaseId = request.CloneDto.BaseId,
+                    StarshipId = request.CloneDto.StarshipId,
+                    Equipment = request.CloneDto.Equipment,
+                    Qualification = request.CloneDto.Qualification,
+                };
+                await _unitOfWork.CloneRepository.InsertAsync(clone);
                 await _unitOfWork.SaveAsync();
-                return clone;
+                return request.CloneDto;
             }
         }
     }

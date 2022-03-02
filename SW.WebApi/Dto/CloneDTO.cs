@@ -1,4 +1,4 @@
-﻿// <copyright file="CloneDTO.cs" company="Star Wars Inc">
+﻿// <copyright file="CloneDto.cs" company="Star Wars Inc">
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 
@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SW.DAL
 {
-    public class CloneDTO
+    public class CloneDto
     {
         [Required]
         [StringLength(4)]

@@ -6,11 +6,11 @@ using MediatR;
 
 namespace SW.DAL
 {
-    public class GetCloneByIdQuerry : IRequest<Clone>
+    public class GetCloneByIdQuerry : IRequest<CloneDto>
     {
         public int CloneId { get; set; }
 
-        public class GetCloneByIdHadler : IRequestHandler<GetCloneByIdQuerry, Clone>
+        public class GetCloneByIdHadler : IRequestHandler<GetCloneByIdQuerry, CloneDto>
         {
             private readonly IUnitOfWork _unitOfWork;
 
@@ -19,10 +19,19 @@ namespace SW.DAL
                 _unitOfWork = unitOfWork;
             }
 
-            public async Task<Clone> Handle(GetCloneByIdQuerry request, CancellationToken cancellationToken)
+            public async Task<CloneDto> Handle(GetCloneByIdQuerry request, CancellationToken cancellationToken)
             {
                 Clone clone = await _unitOfWork.CloneRepository.GetByIdAsync(request.CloneId);
-                return clone;
+                CloneDto cloneDto = new ()
+                {
+                    BaseId = clone.BaseId,
+                    StarshipId = clone.StarshipId,
+                    LegionId = clone.LegionId,
+                    Number = clone.Number,
+                    Equipment = clone.Equipment,
+                    Qualification = clone.Qualification,
+                };
+                return cloneDto;
             }
         }
     }

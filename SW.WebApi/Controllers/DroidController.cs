@@ -19,6 +19,7 @@ namespace SW.WebAPI.Controllers
         {
             _mediator = mediator;
         }
+
         [HttpGet]
         public async Task<IActionResult> Get(
             Expression<Func<Droid, bool>> filter = null)
@@ -26,38 +27,24 @@ namespace SW.WebAPI.Controllers
             var droids = await _mediator.Send(filter);
             return Ok(droids);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var droid = await _mediator.Send(new GetDroidByIdQuerry { DroidId = id });
-            if (droid is null)
-            {
-                return NotFound();
-            }
-            DroidDTO returnClone = new ()
-            {
-                Model = droid.Model,
-                BaseId = droid.BaseId,
-                StarshipId = droid.StarshipId,
-                Equipment = droid.Equipment
-            };
-            return Ok(returnClone);
-        } 
+            return droid is null ? NotFound() : Ok(droid);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Insert([FromBody] DroidDTO droid)
+        public async Task<IActionResult> Insert([FromBody] DroidDto droid)
         {
             var result = await _mediator.Send(new InsertDroidCommand()
             {
-                Droid = new Droid()
-                {
-                    Model = droid.Model,
-                    BaseId = droid.BaseId,
-                    StarshipId = droid.StarshipId,
-                    Equipment = droid.Equipment
-                }
+                DroidDto = droid,
             });
            return Ok(result);
         }
+
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

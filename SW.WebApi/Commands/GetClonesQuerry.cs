@@ -13,15 +13,15 @@ namespace SW.DAL
 
         public class GetClonesHandler : IRequestHandler<GetClonesQuerry, IEnumerable<Clone>>
         {
-            private readonly IGenericRepository<Clone> _repository;
+            private readonly IUnitOfWork _unitOfWork;
 
             public GetClonesHandler(IUnitOfWork unitOfWork)
             {
-                _repository = unitOfWork.CloneRepository;
+                _unitOfWork = unitOfWork;
             }
             public async Task<IEnumerable<Clone>> Handle(GetClonesQuerry request, CancellationToken cancellationToken)
             {
-                var clones = await _repository.GetAsync(request.Filter);
+                var clones = await _unitOfWork.CloneRepository.GetAsync(request.Filter);
                 return clones;
             }
         }
