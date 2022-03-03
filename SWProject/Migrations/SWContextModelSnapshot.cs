@@ -30,7 +30,7 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AmmoSupplyId")
+                    b.Property<int?>("AmmoSupplyId")
                         .HasColumnType("int");
 
                     b.Property<int?>("AttachedFleetId")
@@ -53,6 +53,9 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Fraction")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Fleets");
@@ -66,7 +69,7 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BaseId")
+                    b.Property<int?>("BaseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Equipment")
@@ -81,7 +84,7 @@ namespace SW.DAL.Migrations
                     b.Property<string>("Qualification")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StarshipId")
+                    b.Property<int?>("StarshipId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -103,7 +106,7 @@ namespace SW.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("BaseId")
+                    b.Property<int?>("BaseId")
                         .HasColumnType("int");
 
                     b.Property<string>("Equipment")
@@ -112,7 +115,7 @@ namespace SW.DAL.Migrations
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StarshipId")
+                    b.Property<int?>("StarshipId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -189,6 +192,9 @@ namespace SW.DAL.Migrations
                     b.Property<string>("PathList")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SupplyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
@@ -198,6 +204,8 @@ namespace SW.DAL.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FleetId");
+
+                    b.HasIndex("SupplyId");
 
                     b.HasIndex("WeaponryId");
 
@@ -255,9 +263,7 @@ namespace SW.DAL.Migrations
                 {
                     b.HasOne("SW.DAL.Supply", "AmmoSupply")
                         .WithMany()
-                        .HasForeignKey("AmmoSupplyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AmmoSupplyId");
 
                     b.HasOne("SW.DAL.BaseFleet", "AttachedFleet")
                         .WithMany("AttachedBases")
@@ -272,9 +278,7 @@ namespace SW.DAL.Migrations
                 {
                     b.HasOne("SW.DAL.Base", "Base")
                         .WithMany("Clones")
-                        .HasForeignKey("BaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BaseId");
 
                     b.HasOne("SW.DAL.Legion", "Legion")
                         .WithMany("Clones")
@@ -284,9 +288,7 @@ namespace SW.DAL.Migrations
 
                     b.HasOne("SW.DAL.Starship", "Starship")
                         .WithMany("Passangers")
-                        .HasForeignKey("StarshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StarshipId");
 
                     b.Navigation("Base");
 
@@ -299,15 +301,11 @@ namespace SW.DAL.Migrations
                 {
                     b.HasOne("SW.DAL.Base", "Base")
                         .WithMany("Droids")
-                        .HasForeignKey("BaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BaseId");
 
                     b.HasOne("SW.DAL.Starship", "Starship")
                         .WithMany("Droids")
-                        .HasForeignKey("StarshipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StarshipId");
 
                     b.Navigation("Base");
 
@@ -342,11 +340,17 @@ namespace SW.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SW.DAL.Supply", "Supply")
+                        .WithMany()
+                        .HasForeignKey("SupplyId");
+
                     b.HasOne("SW.DAL.StarshipWeaponry", "Weaponry")
                         .WithMany()
                         .HasForeignKey("WeaponryId");
 
                     b.Navigation("Fleet");
+
+                    b.Navigation("Supply");
 
                     b.Navigation("Weaponry");
                 });
