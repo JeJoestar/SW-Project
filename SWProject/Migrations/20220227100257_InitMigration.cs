@@ -153,7 +153,7 @@ namespace SW.DAL.Migrations
                     Number = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LegionId = table.Column<int>(type: "int", nullable: false),
                     BaseId = table.Column<int>(type: "int", nullable: false),
-                    StarshipId = table.Column<int>(type: "int", nullable: false),
+                    StarshipId = table.Column<int>(type: "int", nullable: true),
                     Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Qualification = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -188,7 +188,7 @@ namespace SW.DAL.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BaseId = table.Column<int>(type: "int", nullable: false),
-                    StarshipId = table.Column<int>(type: "int", nullable: false),
+                    StarshipId = table.Column<int>(type: "int", nullable: true),
                     Equipment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

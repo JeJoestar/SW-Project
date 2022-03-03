@@ -37,16 +37,8 @@ app.Services.GetService<SWContext>().Database.Migrate();
 
 if (args.Length == 1 && args[0] == "seeddata")
 {
-    SeedData(app);
-}
-
-static void SeedData(IHost app)
-{
-    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
-
-    using var scope = scopedFactory.CreateScope();
-    var service = scope.ServiceProvider.GetService<SWDataSeeder>();
-    service.SeedData();
+    using IServiceScope scope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
+    scope.ServiceProvider.GetService<SWDataSeeder>().SeedData();
 }
 
 app.UseHttpsRedirection();
