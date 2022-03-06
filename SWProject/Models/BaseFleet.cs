@@ -1,6 +1,10 @@
-﻿namespace SW.DAL
+﻿// <copyright file="BaseFleet.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
+namespace SW.DAL
 {
-    public class BaseFleet : BaseEntity // ця сутність взагалі не мала ключа 
+    public class BaseFleet : BaseEntity
     {
         public string Fraction { get; set; }
 
