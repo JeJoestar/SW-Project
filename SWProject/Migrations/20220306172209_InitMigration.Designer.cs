@@ -12,8 +12,8 @@ using SW.DAL;
 namespace SW.DAL.Migrations
 {
     [DbContext(typeof(SWContext))]
-    [Migration("20220303200207_UpdatedEntities")]
-    partial class UpdatedEntities
+    [Migration("20220306172209_InitMigration")]
+    partial class InitMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -54,6 +54,9 @@ namespace SW.DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Fraction")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
