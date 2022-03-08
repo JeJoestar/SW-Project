@@ -22,9 +22,14 @@ namespace SW.WebAPI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Get(
-            Expression<Func<Droid, bool>> filter = null)
+            [FromQuery] int pageNumber, [FromQuery] int pageSize, Expression<Func<Droid, bool>> filter = null)
         {
-            var droids = await _mediator.Send(filter);
+            var droids = await _mediator.Send(new GetDroidsPageQuerry
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Filter = filter,
+            });
             return Ok(droids);
         }
 

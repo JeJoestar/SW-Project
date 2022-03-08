@@ -1,4 +1,4 @@
-﻿// <copyright file="GetClonesQuerry - Copy.cs" company="Star Wars Inc">
+﻿// <copyright file="GetClonesPageQuerry.cs" company="Star Wars Inc">
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 
@@ -13,6 +13,8 @@ namespace SW.DAL
 
         public int PageSize { get; set; }
 
+        public Expression<Func<Clone, bool>> Filter { get; set; }
+
         public class GetClonesPageHandler : IRequestHandler<GetClonesPageQuerry, IEnumerable<CloneDto>>
         {
             private readonly IUnitOfWork _unitOfWork;
@@ -23,7 +25,7 @@ namespace SW.DAL
             }
             public async Task<IEnumerable<CloneDto>> Handle(GetClonesPageQuerry request, CancellationToken cancellationToken)
             {
-                var clones = await _unitOfWork.CloneRepository.GetAsync(request.PageNumber, request.PageSize);
+                var clones = await _unitOfWork.CloneRepository.GetAsync(request.PageNumber, request.PageSize, request.Filter);
                 var clonesDto = new List<CloneDto>();
                 foreach (var clone in clones)
                 {

@@ -20,12 +20,18 @@ namespace SW.DAL
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync(
-            int pageNumber, int pageSize)
+            int pageNumber, int pageSize, Expression<Func<TEntity, bool>> filter = null)
         {
             return await _dbSet
+                .Where(filter)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+        }
+        
+        public IQueryable<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
+        {
+            return _dbSet.Where(filter);
         }
 
         public async Task<IEnumerable<TEntity>> GetAsync(
