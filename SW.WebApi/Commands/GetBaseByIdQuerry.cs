@@ -14,7 +14,7 @@ namespace SW.DAL
             {
                 _unitOfWork = unitOfWork;
             }
-
+           
             public async Task<BaseDto> Handle(GetBaseByIdQuerry request, CancellationToken cancellationToken)
             {
                 Base basee = await _unitOfWork.BaseRepository.GetByIdAsync(request.BaseId);

@@ -43,6 +43,10 @@ namespace SW.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Insert([FromBody] DroidDto droid)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var result = await _mediator.Send(new InsertDroidCommand()
             {
                 DroidDto = droid,

@@ -3,6 +3,7 @@
 // </copyright>
 
 using System.Reflection;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SW.DAL;
@@ -11,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation(fv =>
+    fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient(service => 
@@ -19,6 +21,7 @@ builder.Services.AddTransient(service =>
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<SWDataSeeder>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
 
 var app = builder.Build();
 
