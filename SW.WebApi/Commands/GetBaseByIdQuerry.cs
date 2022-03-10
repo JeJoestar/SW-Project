@@ -1,4 +1,8 @@
-﻿using MediatR;
+﻿// <copyright file="GetBaseByIdQuerry.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
+using MediatR;
 
 namespace SW.DAL
 {
@@ -56,6 +60,5 @@ namespace SW.DAL
                 return baseDto;
             }
         }
-
     }
 }

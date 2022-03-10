@@ -22,7 +22,6 @@ builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 builder.Services.AddTransient<SWDataSeeder>();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

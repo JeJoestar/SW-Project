@@ -1,4 +1,4 @@
-﻿// <copyright file="Clone.cs" company="Star Wars Inc">
+﻿// <copyright file="CloneValidator.cs" company="Star Wars Inc">
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 

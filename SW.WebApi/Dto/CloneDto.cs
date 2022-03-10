@@ -2,8 +2,6 @@
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 
-using System.ComponentModel.DataAnnotations;
-
 namespace SW.DAL
 {
     public class CloneDto

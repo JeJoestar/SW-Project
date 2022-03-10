@@ -3,7 +3,6 @@
 // </copyright>
 
 #nullable disable
-using System.Linq.Expressions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SW.DAL;
@@ -20,15 +19,20 @@ namespace SW.WebAPI.Controllers
             _mediator = mediator;
         }
 
+        public class Filter
+        {
+            public int LegionId { get; set; }
+            public int BaseId { get; set; }
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetClones(
-           [FromQuery] int pageNumber, [FromQuery] int pageSize, [FromQuery] Expression<Func<Clone, bool>> filter = null)
+            Filter filter, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var clones = await _mediator.Send(new GetClonesPageQuerry
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
-                Filter = filter,
             });
             return Ok(clones);
         }
@@ -60,12 +64,5 @@ namespace SW.WebAPI.Controllers
             var result = await _mediator.Send(new DeleteCloneCommand() { CloneId = id });
             return Ok(result);
         } 
-    }
-
-    public class Filter
-    {
-        public int BaseId { get; set; }
-
-        public int LegionId { get; set; }
     }
 }

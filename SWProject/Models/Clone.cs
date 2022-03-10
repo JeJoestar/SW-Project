@@ -2,8 +2,6 @@
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 
-using FluentValidation;
-
 namespace SW.DAL
 {
     public class Clone : BaseEntity

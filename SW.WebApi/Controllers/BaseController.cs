@@ -1,4 +1,4 @@
-﻿// <copyright file="BasesController.cs" company="Star Wars Inc">
+﻿// <copyright file="BaseController.cs" company="Star Wars Inc">
 // Copyright (c) Star Wars Inc. All rights reserved.
 // </copyright>
 

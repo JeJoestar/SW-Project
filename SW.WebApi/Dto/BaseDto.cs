@@ -1,4 +1,8 @@
-﻿namespace SW.DAL
+﻿// <copyright file="BaseDto.cs" company="Star Wars Inc">
+// Copyright (c) Star Wars Inc. All rights reserved.
+// </copyright>
+
+namespace SW.DAL
 {
     public class BaseDto
     {
