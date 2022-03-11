@@ -27,12 +27,13 @@ namespace SW.WebAPI.Controllers
 
         [HttpGet]
         public async Task<IActionResult> GetClones(
-            Filter filter, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+            int id, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             var clones = await _mediator.Send(new GetClonesPageQuerry
             {
                 PageNumber = pageNumber,
                 PageSize = pageSize,
+                Filter = i => true,
             });
             return Ok(clones);
         }

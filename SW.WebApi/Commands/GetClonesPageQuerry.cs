@@ -4,6 +4,7 @@
 
 using System.Linq.Expressions;
 using MediatR;
+using SW.WebAPI.ExtensionMethods;
 
 namespace SW.DAL
 {
@@ -39,6 +40,7 @@ namespace SW.DAL
                         StarshipId = clone.StarshipId,
                     });
                 }
+                clones = clones.NotEachSecond(clone => clone.Number.Contains('3')).ToList();
                 return clonesDto;
             }
         }
